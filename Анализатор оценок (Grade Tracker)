@@ -1,0 +1,21 @@
+grades = []
+while True:
+    try:
+        grade = int(input("Enter a grade (1-10, 0 to quit): "))
+        if grade == 0:
+            break
+        if grade < 1 or grade > 10:
+            print("Please enter a grade between 1 and 10!")
+            continue
+        grades.append(grade)
+        print(f"Added grade: {grade}")
+    except ValueError:
+        print("Invalid input! Please enter a number.")
+if grades:  # Проверяем, не пустой ли список
+    print(f"Your grades: {grades}")
+    print(f"Number of grades: {len(grades)}")
+    print(f"Average grade: {sum(grades) / len(grades):.2f}")
+    print(f"Best grade: {max(grades)}")
+    print(f"Worst grade: {min(grades)}")
+else:
+    print("No grades were entered.")
