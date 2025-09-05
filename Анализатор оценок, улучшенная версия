@@ -1,0 +1,62 @@
+def input_student():
+    name = input("Enter student name (Stop to quit): ").capitalize()
+    if name == "Stop":
+        return None
+    try:
+        grade = int(input("Enter grade (1-10): "))
+        if grade < 1 or grade > 10:
+            print("Please enter a grade between 1 and 10!")
+            return None
+        extra_info = {}
+        age = input("Enter age (or press Enter to skip): ")
+        if age:
+            extra_info["age"] = int(age)
+        city = input("Enter city (or press Enter to skip): ")
+        if city:
+            extra_info["city"] = city
+        return [name, grade, extra_info]
+    except ValueError:
+        print("Invalid grade! Please enter a number.")
+        return None
+
+def print_student_info(student):
+    print(f"Student: {student[0]}, Grade: {student[1]}")
+    for key, value in student[2].items():
+        print(f"{key}: {value}")
+
+def calculate_stats(students):
+    if students:
+        grades = [student[1] for student in students]
+        return (len(grades), sum(grades) / len(grades), max(grades), min(grades))
+    return (0, 0, 0, 0)
+
+def sort_students(students):
+    return sorted(students, key=lambda x: x[1], reverse=True)
+
+students = []
+count_invalid = 0
+count_low = 0
+while True:
+    result = input_student()
+    if result is None:
+        count_invalid += 1
+        continue
+    if result == "Stop":
+        break
+    students.append(result)
+    print_student_info(result)
+    if result[1] < 7:
+        count_low += 1
+
+students = sort_students(students)
+count, avg, max_grade, min_grade = calculate_stats(students)
+if students:
+    print(f"\nSorted by grades (descending): {students}")
+    print(f"Number of students: {count}")
+    print(f"Average grade: {avg:.2f}")
+    print(f"Best grade: {max_grade}")
+    print(f"Worst grade: {min_grade}")
+    print(f"You entered {count_invalid} invalid inputs.")
+    print(f"You have {count_low} students with grades < 7.")
+else:
+    print("No students were entered.")
